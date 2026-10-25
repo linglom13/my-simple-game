@@ -231,7 +231,7 @@
 				if (index === 0) rankBadge = "🥇";
 				if (index === 1) rankBadge = "🥈";
 				if (index === 2) rankBadge = "🥉";
-				li.innerHTML = "<span>${rankBadge} ${data.playerName}</span> <strong>${data.score} แต้ม</strong>";
+				li.innerHTML = `<span>${rankBadge} ${data.playerName}</span> <strong>${data.score} แต้ม</strong>`;
 				scoreListUl.appendChild(li);
 			});
 		});
