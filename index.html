@@ -6,7 +6,11 @@
     <title>เกมจับผิดภาพ 5 ด่าน - ระบบ High Score</title>
     <!-- เชื่อมโยงไฟล์ตกแต่งภายนอก -->
     <link rel="stylesheet" href="style.css">
-	
+	    
+	<!-- โหลดแกนหลักของ Firebase ออนไลน์แบบไม่ต้องลงทะเบียน Origin -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <!-- โหลดโมดูลฐานข้อมูล Realtime Database -->
+    <script src="https://gstatic.com"></script>
 </head>
 <body>
 
@@ -48,6 +52,6 @@
     </div>
 
     <!-- เรียกสคริปต์เกมปกติ -->
-    <script type="module" src="game.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>
