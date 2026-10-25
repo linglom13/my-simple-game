@@ -23,7 +23,7 @@ if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 // เรียกใช้งาน database() ผ่านฟังก์ชันมาตรฐานของ Firebase App
-const db = firebase.app().database();
+const db = firebase.database();
 
 // ชุดพิกัดด่าน 1-5
 const diffsData = [
