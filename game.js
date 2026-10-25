@@ -1,26 +1,3 @@
-/*// Import the functions you need from the SDKs you need
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
-authDomain: "my-simple-games.firebaseapp.com",
-projectId: "my-simple-games",
-storageBucket: "my-simple-games.firebasestorage.app",
-messagingSenderId: "148777694804",
-appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);*/
-  
-  
-// 1. นำเข้าโมดูล Firebase SDK จากออนไลน์ (ไม่ต้องติดตั้งลงเครื่อง)
-import { initializeApp } from "https://www.gstatic.com";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com";
-
 // ระบบเสียงออนไลน์
 const sndCorrect = new Audio("correct.mp3");
 const sndWrong = new Audio("incorrect.mp3");
@@ -31,7 +8,7 @@ function playSound(audio) {
     audio.play().catch(e => {});
 }
 
-// 2. ใส่ข้อมูลโปรเจกต์ Firebase ของคุณตรงนี้ (ก๊อปปี้มาจากหน้าเว็บ Firebase Console)
+// ⚠️ ใส่ข้อมูลโปรเจกต์ Firebase ของคุณตรงนี้แทนค่าเดิม
 const firebaseConfig = {
 	apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
 	authDomain: "my-simple-games.firebaseapp.com",
@@ -41,9 +18,9 @@ const firebaseConfig = {
 	appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
 };
 
-// เริ่มต้นเปิดระบบเชื่อมต่อฐานข้อมูล Google
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+// สั่งเชื่อมต่อฐานข้อมูล Google แบบดั้งเดิม (ไม่ต้องระบุสิทธิ์ CORS ข้ามเว็บไซต์)
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 // ชุดพิกัดด่าน 1-5
 const diffsData = [
@@ -57,11 +34,10 @@ const diffsData = [
 let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
 let totalScore = 0, playerName = "Guest";
 
-// ดึงคะแนนออนไลน์มาแสดงหน้าแรกทันทีที่เข้าเว็บ
+// ดึงคะแนนออนไลน์มาแสดงหน้าแรกทันที
 displayHighScores();
 
-// ฟังก์ชันปุ่มกดเริ่มเกม
-window.initStartGame = function() {
+function initStartGame() {
     const inputName = document.getElementById("playerNameInput").value.trim();
     if (inputName === "") {
         alert("กรุณากรอกชื่อผู้เล่นก่อนเริ่มเกมนะครับ!");
@@ -92,8 +68,7 @@ function loadStage(idx) {
     document.getElementById("overlay").style.display = "none";
 }
 
-// ผูกฟังก์ชันคลิกตรวจจับไว้กับ Window
-window.checkClick = function(e) {
+function checkClick(e) {
     if (isOver) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
@@ -139,7 +114,6 @@ function showOverlay(type) {
         txt.innerText = `ผ่านด่านที่ ${curStg+1} แล้ว!\nคะแนนตอนนี้: ${totalScore}`; 
         btn.innerText = "ลุยด่านถัดไป"; mode = "NEXT"; 
     } else {
-        // เมื่อจบเกม ยิงคะแนนขึ้น Google Firebase ทันที
         checkAndSaveHighScore(playerName, totalScore);
         if (type === "WIN_ALL") { 
             txt.innerHTML = `🎉 สุดยอด! เคลียร์ครบ 5 ด่าน! 🎉<br>คะแนนรวม: ${totalScore} คะแนน`; 
@@ -153,7 +127,7 @@ function showOverlay(type) {
     document.getElementById("overlay").style.display = "flex";
 }
 
-window.overlayAction = function() {
+function overlayAction() {
     if (mode === "NEXT") { 
         curStg++; loadStage(curStg);
     } else if (mode === "MAIN_MENU") {
@@ -166,28 +140,23 @@ window.overlayAction = function() {
     }
 }
 
-// 3. ฟังก์ชันบันทึกคะแนนขึ้นระบบออนไลน์ของ Firebase
+// ระบบบันทึกคะแนนออนไลน์แบบดั้งเดิม
 function checkAndSaveHighScore(name, score) {
-    const dbRef = ref(db);
-    // เข้าไปเช็คข้อมูลคะแนนเดิมบน Cloud ของ Google ก่อน
-    get(child(dbRef, `highscores/${name}`)).then((snapshot) => {
+    db.ref(`highscores/${name}`).once('value').then((snapshot) => {
         if (snapshot.exists()) {
             const oldScore = snapshot.val().score;
-            // ถ้าชื่อซ้ำ แต่รอบใหม่ทำคะแนนได้ดีกว่าเดิม ให้เขียนทับคะแนนสูงสุดใหม่ลง Firebase
             if (score > oldScore) {
-                set(ref(db, 'highscores/' + name), { name: name, score: score });
+                db.ref('highscores/' + name).set({ name: name, score: score });
             }
         } else {
-            // ถ้าเป็นผู้เล่นชื่อใหม่ บันทึกคะแนนใหม่ขึ้นออนไลน์ทันที
-            set(ref(db, 'highscores/' + name), { name: name, score: score });
+            db.ref('highscores/' + name).set({ name: name, score: score });
         }
     }).catch((error) => { console.error(error); });
 }
 
-// 4. ฟังก์ชันดึงค่า High Score ออนไลน์มาเรนเดอร์จัดอันดับ Top 10 บนหน้าแรก
+// ระบบดึงคะแนนและจัดอันดับออนไลน์แบบดั้งเดิม
 function displayHighScores() {
-    const dbRef = ref(db);
-    get(child(dbRef, 'highscores')).then((snapshot) => {
+    db.ref('highscores').once('value').then((snapshot) => {
         const scoreListUl = document.getElementById("scoreList");
         scoreListUl.innerHTML = "";
         
@@ -196,11 +165,9 @@ function displayHighScores() {
             return;
         }
 
-        // แปลงข้อมูลอ็อบเจกต์จาก Firebase ให้ออกมาเป็น Array เพื่อเรียงลำดับ
         const data = snapshot.val();
         const scoresArray = Object.keys(data).map(key => data[key]);
         
-        // เรียงคะแนนสูงสุดจากมากไปน้อย และตัดเก็บไว้โชว์แค่ 10 อันดับแรก
         scoresArray.sort((a, b) => b.score - a.score);
         const top10 = scoresArray.slice(0, 10);
 
