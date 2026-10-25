@@ -53,6 +53,7 @@
     // Import the functions you need from the SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
 	import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+	import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 	
 	const firebaseConfig = {
 		apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
@@ -65,7 +66,7 @@
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-	const db = getDatabase(app);
+	const db = getFirestore(app);
 
 	// ชุดพิกัดด่าน 1-5
 	const diffsData = [
