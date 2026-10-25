@@ -192,9 +192,92 @@
 		appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
 	};
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
+    	// Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const highscoresRef = ref(db, "highscores");
+
+        // ตัวแปรภายในเพื่อเก็บสำเนาสแนปชอตล่าสุดของ 10 อันดับแรกไว้เช็คเงื่อนไขตอนจบเกม
+        let currentTopScores = [];
+
+        // 1. แสดงคะแนนสูงสุด 10 อันดับในหน้าแรกแบบ Real-time
+        const topScoresQuery = query(highscoresRef, orderByChild("score"), limitToLast(10));
+        
+        onValue(topScoresQuery, (snapshot) => {
+            const scoreListUl = document.getElementById("scoreList");
+            scoreListUl.innerHTML = "";
+
+            currentTopScores = [];
+            snapshot.forEach((childSnapshot) => {
+                currentTopScores.push({
+                    key: childSnapshot.key,
+                    ...childSnapshot.val()
+                });
+            });
+
+            // เรียงลำดับจากคะแนนมากไปหาน้อย
+            currentTopScores.sort((a, b) => b.score - a.score);
+
+            if (currentTopScores.length === 0) {
+                scoreListUl.innerHTML = "<li style='text-align:center; color:#999;'>ยังไม่มีคะแนนบันทึกในขณะนี้</li>";
+                return;
+            }
+
+            currentTopScores.forEach((data, index) => {
+                const li = document.createElement("li");
+                let rankBadge = `${index + 1}.`;
+				if (index === 0) rankBadge = "🥇";
+				if (index === 1) rankBadge = "🥈";
+				if (index === 2) rankBadge = "🥉";
+				li.innerHTML = <span>${rankBadge} ${data.playerName}</span> <strong>${data.score} แต้ม</strong>;
+				scoreListUl.appendChild(li);
+			});
+		});
+		
+	// 2. ฟังก์ชันหลักสำหรับประมวลผลเงื่อนไขการบันทึกเมื่อจบเกม
+		window.firebaseProcessHighScore = function(newPlayerName, newScore) {
+		// เช็คว่าผู้เล่นคนนี้มีชื่ออยู่ในบอร์ด High Score อยู่แล้วหรือไม่
+		const existingRecord = currentTopScores.find(item => item.playerName === newPlayerName);
+		if (existingRecord) {
+			// เงื่อนไข: ถ้ามีชื่ออยู่แล้วและได้คะแนนมากกว่าเดิม จะอัปเดตคะแนนที่คีย์เดิม
+			if (newScore > existingRecord.score) {
+				const recordRef = ref(db, highscores/${existingRecord.key});
+				update(recordRef, {
+					score: newScore,
+					timestamp: Date.now()
+				}).then(() => console.log("อัปเดตคะแนนใหม่ของผู้เล่นเดิมสำเร็จ"));
+			} else {
+				console.log("คะแนนใหม่น้อยกว่าหรือเท่ากับของเดิม ไม่ทำการอัปเดต");
+			}
+		} else {
+		// กรณีเป็นผู้เล่นใหม่ (ไม่มีชื่อบนบอร์ดมาก่อน)
+			if (currentTopScores.length < 10) {
+				// ถ้าตารางยังไม่เต็ม 10 อันดับ ให้เพิ่มเข้าไปได้ทันที
+				push(highscoresRef, {
+				playerName: newPlayerName,
+				score: newScore,
+				timestamp: Date.now()
+				}).then(() => console.log("เพิ่มคะแนนลงบอร์ดที่ยังว่างสำเร็จ"));
+			} else {
+				// ถ้าบอร์ดเต็ม 10 อันดับแล้ว ให้เช็คว่าคะแนนใหม่ชนะคะแนนที่น้อยที่สุดหรือไม่
+				const lowestRecord = currentTopScores[currentTopScores.length - 1]; // ตัวสุดท้ายคือตัวที่คะแนนน้อยที่สุด
+				if (newScore > lowestRecord.score) {
+					// ลบคะแนนที่น้อยที่สุดออกก่อน
+					const lowestRecordRef = ref(db, highscores/${lowestRecord.key});
+					remove(lowestRecordRef).then(() => {
+						// เพิ่มคะแนนใหม่เข้าไปแทนที่
+						push(highscoresRef, {
+							playerName: newPlayerName,
+							score: newScore,
+							timestamp: Date.now()
+						}).then(() => console.log("เบียดเข้าท็อป 10 บอร์ดแทนที่คะแนนต่ำสุดสำเร็จ"));
+					});
+				} else {
+					console.log("คะแนนไม่สูงพอที่จะติด 10 อันดับแรก");
+				}
+			}
+		}
+	};
 
 
 	
