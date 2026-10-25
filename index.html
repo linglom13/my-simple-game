@@ -181,7 +181,7 @@
 <script type="module">
     // Import the functions you need from the SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-	import { getDatabase, ref, push, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+	import { getDatabase, ref, push, update, remove, onValue, query, orderByChild, limitToLast } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
 	import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 	
 	const firebaseConfig = {
@@ -254,9 +254,9 @@
 				if (currentTopScores.length < 10) {
 					// ถ้าบอร์ดยังไม่เต็ม 10 คน -> บันทึกได้เลย
 					push(highscoresRef, {
-					playerName: newPlayerName,
-					score: newScore,
-					timestamp: Date.now()
+						playerName: newPlayerName,
+						score: newScore,
+						timestamp: Date.now()
 					});
 				} else {
 					// ถ้าบอร์ดเต็ม 10 คนแล้ว -> เช็คแต้มเบียดคะแนนอันดับท้ายสุด
