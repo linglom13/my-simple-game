@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เกมจับผิดภาพ 5 ด่าน - ระบบ High Score</title>
+    <!-- เชื่อมโยงไฟล์ตกแต่งภายนอก -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- หน้ารายการเมนูแรกสุด -->
+    <div id="mainMenu" class="main-menu">
+        <h1>เกมจับผิดภาพ 5 ด่าน</h1>
+        <div class="name-input-box">
+            <p style="margin-bottom: 8px; font-weight: bold; color: #555;">กรุณาใส่ชื่อผู้เล่น:</p>
+            <input type="text" id="playerNameInput" placeholder="พิมพ์ชื่อของคุณตรงนี้" maxlength="15">
+        </div>
+        <button class="btn" style="background: #2ecc71;" onclick="initStartGame()">เริ่มเล่นเกม</button>
+        
+        <div class="highscore-box">
+            <h3>🏆 10 อันดับคะแนนสูงสุด</h3>
+            <ul id="scoreList" class="score-list"></ul>
+        </div>
+    </div>
+
+    <!-- ส่วนหัวบอกสถานะในเกม -->
+    <div class="header" id="gameHeader">
+        <h2 style="margin-bottom: 5px; color: #2c3e50;">ผู้เล่น: <span id="displayPlayerName" style="color: #3498db;">-</span></h2>
+        <div class="status-board">
+            <div>ด่าน: <span id="stg">1</span>/5</div>
+            <div>คะแนนสะสม: <span id="gameScore">0</span></div>
+            <div>พลังชีวิต: <span id="lives">❤❤❤</span></div>
+        </div>
+    </div>
+
+    <!-- โซนรูปภาพคู่ขนาน -->
+    <div class="game-area" id="gameArea">
+        <div class="image-wrapper" id="imgL" onclick="checkClick(event)"><img id="srcL" src=""></div>
+        <div class="image-wrapper" id="imgR" onclick="checkClick(event)"><img id="srcR" src=""></div>
+    </div>
+
+    <!-- แผง Overlay แจ้งผลด่าน/แพ้/ชนะ -->
+    <div id="overlay" class="overlay">
+        <h2 id="overText">คุณชนะ!</h2>
+        <button id="overBtn" class="btn" onclick="overlayAction()">ถัดไป</button>
+    </div>
+
+    <!-- เชื่อมโยงระบบการทำงานคำสั่งเกม -->
+    <script type="module" src="game.js"></script>
+</body>
+</html>
