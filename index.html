@@ -51,6 +51,16 @@
 
 		let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
 		let totalScore = 0, playerName = "Guest";
+
+		// ระบบเสียงออนไลน์
+		//const sndCorrect = new Audio("correct.mp3");
+		//const sndWrong = new Audio("incorrect.mp3");
+		//const sndWin = new Audio("game-over.mp3");
+		
+		function playSound(audio) {
+		    //audio.currentTime = 0;
+		    //audio.play().catch(e => {});
+		}
 		
 		function initStartGame() {
 	    const inputName = document.getElementById("playerNameInput").value.trim();
@@ -97,7 +107,7 @@
 	                totalScore += 10;
 	                document.getElementById("gameScore").innerText = totalScore;
 	                
-	                playSound(sndCorrect);
+	                //playSound(sndCorrect);
 	                d.positions.forEach(pos => createMarker(pos.x, pos.y));
 	                if (foundInStage === 3) showOverlay(curStg === 4 ? "WIN_ALL" : "NEXT");
 	                break;
@@ -107,7 +117,7 @@
 	    if (!hit) {
 	        lives--;
 	        document.getElementById("lives").innerText = "❤".repeat(lives) + "💔".repeat(3 - lives);
-	        playSound(sndWrong);
+	        //playSound(sndWrong);
 	        if (lives <= 0) showOverlay("GAME_OVER");
 	    }
 	}
@@ -122,7 +132,7 @@
 	
 	function showOverlay(type) {
 	    isOver = true;
-	    playSound(sndWin);
+	    //playSound(sndWin);
 	    const txt = document.getElementById("overText"), btn = document.getElementById("overBtn");
 	    
 	    if (type === "NEXT") { 
