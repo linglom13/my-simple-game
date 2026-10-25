@@ -18,7 +18,7 @@ const app = initializeApp(firebaseConfig);*/
   
   
 // 1. นำเข้าโมดูล Firebase SDK จากออนไลน์ (ไม่ต้องติดตั้งลงเครื่อง)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com";
 import { getDatabase, ref, set, get, child } from "https://www.gstatic.com";
 
 // ระบบเสียงออนไลน์
