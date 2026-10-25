@@ -66,7 +66,7 @@
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-	const db = firebase.database();
+	const db = getFirestore(app);
 
 	// ชุดพิกัดด่าน 1-5
 	const diffsData = [
