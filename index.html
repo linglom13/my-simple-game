@@ -7,10 +7,10 @@
     <!-- เชื่อมโยงไฟล์ตกแต่งภายนอก -->
     <link rel="stylesheet" href="style.css">
 	
-	<!-- โหลดแกนหลักของ Firebase ออนไลน์แบบไม่ต้องลงทะเบียน Origin -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <!-- โหลดโมดูลฐานข้อมูล Realtime Database -->
-    <script src="https://gstatic.com"></script>
+	<!-- โหลดแกนหลักของ Firebase เวอร์ชัน 8 -->
+	<script src="https://gstatic.com"></script>
+	<!-- โหลดโมดูล Realtime Database เวอร์ชัน 8 -->
+	<script src="https://gstatic.com"></script>
 	
 </head>
 <body>
@@ -52,7 +52,7 @@
         <button id="overBtn" class="btn" onclick="overlayAction()">ถัดไป</button>
     </div>
 
-    <!-- เชื่อมโยงระบบการทำงานคำสั่งเกม -->
-    <script type="module" src="game.js"></script>
+    <!-- เรียกสคริปต์เกมปกติ -->
+    <script src="game.js"></script>
 </body>
 </html>
