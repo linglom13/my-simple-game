@@ -48,6 +48,10 @@
     </div>
 
 	<script>
+
+		let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
+		let totalScore = 0, playerName = "Guest";
+		
 		function initStartGame() {
 	    const inputName = document.getElementById("playerNameInput").value.trim();
 	    if (inputName === "") {
@@ -182,8 +186,7 @@
 	    [ [{x:220,y:180}], [{x:110,y:90}], [{x:320,y:310}] ]
 	];
 	
-	let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
-	let totalScore = 0, playerName = "Guest";
+	
 	
 	
 </script>
