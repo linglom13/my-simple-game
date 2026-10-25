@@ -8,6 +8,9 @@ function playSound(audio) {
     audio.play().catch(e => {});
 }
 
+import { initializeApp } from "https://gstatic.com";
+import { getFirestore, doc, setDoc } from "https://gstatic.com";
+
 // 2. ตั้งค่าการเชื่อมต่อ Google Firebase คีย์จริงจากโปรเจกต์ของคุณ
 const firebaseConfig = {
     apiKey: "AIzaSyAsJ2uB1k7hO8M4N9vP3qR5sT6uV7wX8yZ", 
@@ -19,11 +22,9 @@ const firebaseConfig = {
     appId: "1:123456789012:web:a1b2c3d4e5f6g7h8i9j0k1"
 };
 
-// 3. เริ่มต้นระบบฐานข้อมูล Firebase (เวอร์ชัน 8)
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const db = firebase.database();
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 
 // 4. ชุดพิกัดจุดจับผิดด่าน 1-5 (ด่านละ 3 จุด รองรับระบบพิกัด หรือ)
 const diffsData = [
