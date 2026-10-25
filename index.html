@@ -47,40 +47,8 @@
         <button id="overBtn" class="btn" onclick="overlayAction()">ถัดไป</button>
     </div>
 
-    <!-- เรียกสคริปต์เกมปกติ -->
-    <!-- Firebase SDK Modules via CDN -->
-<script type="module">
-    // Import the functions you need from the SDKs
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-	import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
-	import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
-	
-	const firebaseConfig = {
-		apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
-		authDomain: "my-simple-games.firebaseapp.com",
-		projectId: "my-simple-games",
-		storageBucket: "my-simple-games.firebasestorage.app",
-		messagingSenderId: "148777694804",
-		appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
-	};
-
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
-
-	// ชุดพิกัดด่าน 1-5
-	const diffsData = [
-	    [ [{x:110,y:54}, {x:302,y:55}], [{x:189,y:173}], [{x:337,y:203}] ],
-	    [ [{x:200,y:200}], [{x:300,y:120}], [{x:100,y:320}] ],
-	    [ [{x:150,y:80}], [{x:250,y:250}], [{x:70,y:190}] ],
-	    [ [{x:120,y:150}], [{x:280,y:280}], [{x:200,y:50}] ],
-	    [ [{x:220,y:180}], [{x:110,y:90}], [{x:320,y:310}] ]
-	];
-	
-	let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
-	let totalScore = 0, playerName = "Guest";
-	
-	function initStartGame() {
+	<script>
+		function initStartGame() {
 	    const inputName = document.getElementById("playerNameInput").value.trim();
 	    if (inputName === "") {
 	        alert("กรุณากรอกชื่อผู้เล่นก่อนเริ่มเกมนะครับ!");
@@ -182,6 +150,42 @@
 	        displayHighScores();
 	    }
 	}
+	</script>
+	
+    <!-- เรียกสคริปต์เกมปกติ -->
+    <!-- Firebase SDK Modules via CDN -->
+<script type="module">
+    // Import the functions you need from the SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+	import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+	import { getFirestore } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+	
+	const firebaseConfig = {
+		apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
+		authDomain: "my-simple-games.firebaseapp.com",
+		projectId: "my-simple-games",
+		storageBucket: "my-simple-games.firebasestorage.app",
+		messagingSenderId: "148777694804",
+		appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
+	};
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
+
+	// ชุดพิกัดด่าน 1-5
+	const diffsData = [
+	    [ [{x:110,y:54}, {x:302,y:55}], [{x:189,y:173}], [{x:337,y:203}] ],
+	    [ [{x:200,y:200}], [{x:300,y:120}], [{x:100,y:320}] ],
+	    [ [{x:150,y:80}], [{x:250,y:250}], [{x:70,y:190}] ],
+	    [ [{x:120,y:150}], [{x:280,y:280}], [{x:200,y:50}] ],
+	    [ [{x:220,y:180}], [{x:110,y:90}], [{x:320,y:310}] ]
+	];
+	
+	let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
+	let totalScore = 0, playerName = "Guest";
+	
+	
 </script>
 </body>
 </html>
