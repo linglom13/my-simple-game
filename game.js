@@ -19,8 +19,11 @@ const firebaseConfig = {
 };
 
 // สั่งเชื่อมต่อฐานข้อมูล Google แบบดั้งเดิม (ไม่ต้องระบุสิทธิ์ CORS ข้ามเว็บไซต์)
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+/*firebase.initializeApp(firebaseConfig);
+const db = firebase.database();*/
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
 // ชุดพิกัดด่าน 1-5
 const diffsData = [
