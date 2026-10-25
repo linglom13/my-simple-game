@@ -18,9 +18,12 @@ const firebaseConfig = {
 	appId: "1:148777694804:web:e57cc24cdd958dcb3d9fc1"
 };
 
-// สั่งเชื่อมต่อฐานข้อมูล Google แบบดั้งเดิม (ไม่ต้องระบุสิทธิ์ CORS ข้ามเว็บไซต์)
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+// สั่งเชื่อมต่อฐานข้อมูล Google แบบดั้งเดิม
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+// เรียกใช้งาน database() ผ่านฟังก์ชันมาตรฐานของ Firebase App
+const db = firebase.app().database();
 
 // ชุดพิกัดด่าน 1-5
 const diffsData = [
