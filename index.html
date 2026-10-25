@@ -52,7 +52,8 @@
 <script type="module">
     // Import the functions you need from the SDKs
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-
+	import { getDatabase, ref, push, onValue } from "https://www.gstatic.com";
+	
 	const firebaseConfig = {
 		apiKey: "AIzaSyCdNAeQyUHsOuevZOb29r7Ok2zEkv276BU",
 		authDomain: "my-simple-games.firebaseapp.com",
