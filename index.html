@@ -67,7 +67,46 @@
     const app = initializeApp(firebaseConfig);
 	const db = getDatabase(app);
 
+	// ชุดพิกัดด่าน 1-5
+	const diffsData = [
+	    [ [{x:110,y:54}, {x:302,y:55}], [{x:189,y:173}], [{x:337,y:203}] ],
+	    [ [{x:200,y:200}], [{x:300,y:120}], [{x:100,y:320}] ],
+	    [ [{x:150,y:80}], [{x:250,y:250}], [{x:70,y:190}] ],
+	    [ [{x:120,y:150}], [{x:280,y:280}], [{x:200,y:50}] ],
+	    [ [{x:220,y:180}], [{x:110,y:90}], [{x:320,y:310}] ]
+	];
+	
+	let curStg = 0, lives = 3, foundInStage = 0, isOver = false, mode = "NEXT", activeDiffs = [];
+	let totalScore = 0, playerName = "Guest";
+	
+	// ดึงคะแนนออนไลน์มาแสดงหน้าแรกทันที
+	displayHighScores();
 
+	// ระบบดึงคะแนนและจัดอันดับออนไลน์แบบดั้งเดิม
+	function displayHighScores() {
+	    db.ref('highscores').once('value').then((snapshot) => {
+	        const scoreListUl = document.getElementById("scoreList");
+	        scoreListUl.innerHTML = "";
+	        
+	        if (!snapshot.exists()) {
+	            scoreListUl.innerHTML = `<li class="score-item" style="color:#aaa; justify-content:center;">ยังไม่มีบันทึกคะแนนสูงสุดบนเซิร์ฟเวอร์</li>`;
+	            return;
+	        }
+	
+	        const data = snapshot.val();
+	        const scoresArray = Object.keys(data).map(key => data[key]);
+	        
+	        scoresArray.sort((a, b) => b.score - a.score);
+	        const top10 = scoresArray.slice(0, 10);
+	
+	        top10.forEach((item, index) => {
+	            const li = document.createElement("li");
+	            li.className = "score-item";
+	            li.innerHTML = `<span>อันดับ ${index + 1}. <b>${item.name}</b></span> <span>${item.score} แต้ม</span>`;
+	            scoreListUl.appendChild(li);
+	        });
+	    }).catch((error) => { console.error(error); });
+	}
 </script>
 </body>
 </html>
