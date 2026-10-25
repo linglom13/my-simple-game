@@ -1,7 +1,7 @@
-// 1. ระบบเสียงเอฟเฟกต์ออนไลน์
-const sndCorrect = new Audio("https://google.com");
-const sndWrong = new Audio("https://google.com");
-const sndWin = new Audio("https://google.com");
+// ระบบเสียงออนไลน์
+const sndCorrect = new Audio("correct.mp3");
+const sndWrong = new Audio("incorrect.mp3");
+const sndWin = new Audio("game-over.mp3");
 
 function playSound(audio) {
     audio.currentTime = 0;
@@ -27,7 +27,7 @@ const db = firebase.database();
 
 // 4. ชุดพิกัดจุดจับผิดด่าน 1-5 (ด่านละ 3 จุด รองรับระบบพิกัด หรือ)
 const diffsData = [
-    [ [{x:180,y:150}, {x:220,y:150}], [{x:90,y:280}], [{x:310,y:80}] ],
+    [ [{x:110,y:54}, {x:302,y:55}], [{x:189,y:173}], [{x:337,y:203}] ],
     [ [{x:200,y:200}], [{x:300,y:120}], [{x:100,y:320}] ],
     [ [{x:150,y:80}], [{x:250,y:250}], [{x:70,y:190}] ],
     [ [{x:120,y:150}], [{x:280,y:280}], [{x:200,y:50}] ],
