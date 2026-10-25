@@ -148,7 +148,9 @@
 	        txt.innerText = `ผ่านด่านที่ ${curStg+1} แล้ว!\nคะแนนตอนนี้: ${totalScore}`; 
 	        btn.innerText = "ลุยด่านถัดไป"; mode = "NEXT"; 
 	    } else {
-	        checkAndSaveHighScore(playerName, totalScore);
+	        if (typeof window.firebaseProcessHighScore === "function") {
+				window.firebaseProcessHighScore(playerName, totalScore);
+            }
 	        if (type === "WIN_ALL") { 
 	            txt.innerHTML = `🎉 สุดยอด! เคลียร์ครบ 5 ด่าน! 🎉<br>คะแนนรวม: ${totalScore} คะแนน`; 
 	            txt.style.color = "#2ecc71";
