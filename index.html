@@ -241,7 +241,7 @@
             if (existingRecord) {
                 // ถ้ามีชื่ออยู่แล้ว และได้คะแนนมากกว่าเดิม -> อัปเดตคีย์เดิม
                 if (newScore > existingRecord.score) {
-					const recordRef = ref(db, highscores/${existingRecord.key});
+					const recordRef = ref(db, `highscores/${existingRecord.key}`);
 					update(recordRef, {
 						score: newScore,
 						timestamp: Date.now()
@@ -261,7 +261,7 @@
 					const lowestRecord = currentTopScores[currentTopScores.length - 1];
 					if (newScore > lowestRecord.score) {
 					// ลบคะแนนที่น้อยที่สุดออกก่อน
-					const lowestRecordRef = ref(db, highscores/${lowestRecord.key});
+					const lowestRecordRef = ref(db, `highscores/${lowestRecord.key}`);
 					remove(lowestRecordRef).then(() => {
 						// เพิ่มคะแนนใหม่เข้าไปแทนที่
 						push(highscoresRef, {
