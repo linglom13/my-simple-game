@@ -121,7 +121,7 @@
 			        d.positions.forEach(pos => createMarker(pos.x, pos.y));
 		        
 			        // แก้ไขบรรทัดนี้: เปลี่ยนจาก === 3 เป็นเช็คจำนวนจุดทั้งหมดในด่านนั้นอัตโนมัติ
-			        if (foundInStage === activeDiffs.length) showOverlay(curStg === 4 ? "WIN_ALL" : "NEXT");
+			        if (foundInStage === activeDiffs.length) showOverlay(curStg === 3 ? "WIN_ALL" : "NEXT");
 			        break;
 	      		}
 	    	}
@@ -156,7 +156,7 @@
 				window.firebaseProcessHighScore(playerName, totalScore);
             }
 	        if (type === "WIN_ALL") { 
-	            txt.innerHTML = `🎉 สุดยอด! เคลียร์ครบ 5 ด่าน! 🎉<br>คะแนนรวม: ${totalScore} คะแนน`; 
+	            txt.innerHTML = `🎉 สุดยอด! เคลียร์ครบ 4 ด่าน! 🎉<br>คะแนนรวม: ${totalScore} คะแนน`; 
 	            txt.style.color = "#2ecc71";
 	        } else { 
 	            txt.innerHTML = `💥 เกมโอเวอร์ พลังชีวิตหมด! 💥<br>คะแนนทำได้รวม: ${totalScore} คะแนน`; 
