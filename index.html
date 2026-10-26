@@ -103,32 +103,36 @@
 	}
 	
 	function checkClick(e) {
-	    if (isOver) return;
-	    const rect = e.currentTarget.getBoundingClientRect();
-	    const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
-	    let hit = false;
-	
-	    for (let d of activeDiffs) {
-	        if (!d.found) {
-	            const match = d.positions.find(pos => Math.sqrt((cx - pos.x)**2 + (cy - pos.y)**2) <= 30);
-	            if (match) {
-	                d.found = true; hit = true; foundInStage++;
-	                totalScore += 10;
-	                document.getElementById("gameScore").innerText = totalScore;
-	                
-	                playSound(sndCorrect);
-	                d.positions.forEach(pos => createMarker(pos.x, pos.y));
-	                if (foundInStage === 3) showOverlay(curStg === 4 ? "WIN_ALL" : "NEXT");
-	                break;
-	            }
-	        }
-	    }
-	    if (!hit) {
-	        lives--;
-	        document.getElementById("lives").innerText = "❤".repeat(lives) + "💔".repeat(3 - lives);
-	        playSound(sndWrong);
-	        if (lives <= 0) showOverlay("GAME_OVER");
-	    }
+		if (isOver) return;
+	  	const rect = e.currentTarget.getBoundingClientRect();
+	  	const cx = e.clientX - rect.left, cy = e.clientY - rect.top;
+	  	let hit = false;
+	  
+	  	for (let d of activeDiffs) {
+	    	if (!d.found) {
+	      		const match = d.positions.find(pos => Math.sqrt((cx - pos.x)**2 + (cy - pos.y)**2) <= 30);
+	      		if (match) {
+			        d.found = true;
+			        hit = true;
+			        foundInStage++;
+			        totalScore += 10;
+			        document.getElementById("gameScore").innerText = totalScore;
+			        playSound(sndCorrect);
+			        d.positions.forEach(pos => createMarker(pos.x, pos.y));
+		        
+			        // แก้ไขบรรทัดนี้: เปลี่ยนจาก === 3 เป็นเช็คจำนวนจุดทั้งหมดในด่านนั้นอัตโนมัติ
+			        if (foundInStage === activeDiffs.length) showOverlay(curStg === 4 ? "WIN_ALL" : "NEXT");
+			        break;
+	      		}
+	    	}
+	  	}
+	  
+	  	if (!hit) {
+	    	lives--;
+	    	document.getElementById("lives").innerText = "❤".repeat(lives) + "💔".repeat(3 - lives);
+	    	playSound(sndWrong);
+	    	if (lives <= 0) showOverlay("GAME_OVER");
+	  	}
 	}
 	
 	function createMarker(x, y) {
