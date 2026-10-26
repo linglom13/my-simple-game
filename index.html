@@ -64,12 +64,25 @@
 		const sndCorrect = new Audio("audio/correct.mp3");
 		const sndWrong = new Audio("audio/incorrect.mp3");
 		const sndWin = new Audio("audio/game-over.mp3");
+		const sndBgm = new Audio("audio/geffen.mp3");
+		sndBgm.loop = true; // ตั้งค่าให้เล่นวนซ้ำไม่มีวันจบ
 		
 		function playSound(audio) {
 		    audio.currentTime = 0;
 			audio.volume = 0.5;
 		    audio.play().catch(e => {});
 		}
+
+		function startBgm() {
+            sndBgm.currentTime = 0;
+            sndBgm.volume = 0.3; // ปรับความดังเพลงเบื้องหลังให้เบากว่าเสียงเอฟเฟกต์ (30%)
+            sndBgm.play().catch(e => console.log("BGM playback blocked until user interaction."));
+        }
+
+        function stopBgm() {
+            sndBgm.pause();
+            sndBgm.currentTime = 0;
+        }
 		
 		function initStartGame() {
 	    const inputName = document.getElementById("playerNameInput").value.trim();
@@ -84,7 +97,8 @@
 	    document.getElementById("gameHeader").style.display = "block";
 	    document.getElementById("gameArea").style.display = "flex";
 	    document.getElementById("displayPlayerName").innerText = playerName;
-	
+
+		startBgm(); // เริ่มเล่นเพลงเบื้องหลังตอนเข้าเกม
 	    loadStage(curStg);
 	}
 	
@@ -152,6 +166,8 @@
 	        txt.innerText = `ผ่านด่านที่ ${curStg+1} แล้ว!\nคะแนนตอนนี้: ${totalScore}`; 
 	        btn.innerText = "ลุยด่านถัดไป"; mode = "NEXT"; 
 	    } else {
+			stopBgm(); // ปิดเพลงเบื้องหลังเมื่อจบเกม (ชนะทั้งหมด หรือ เกมโอเวอร์)
+			
 	        if (typeof window.firebaseProcessHighScore === "function") {
 				window.firebaseProcessHighScore(playerName, totalScore);
             }
