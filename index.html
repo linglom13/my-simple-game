@@ -62,13 +62,14 @@
 		];
 		
 		// ระบบเสียงออนไลน์
-		//const sndCorrect = new Audio("correct.mp3");
-		//const sndWrong = new Audio("incorrect.mp3");
-		//const sndWin = new Audio("game-over.mp3");
+		const sndCorrect = new Audio("audio/correct.mp3");
+		const sndWrong = new Audio("audio/incorrect.mp3");
+		const sndWin = new Audio("audio/game-over.mp3");
 		
 		function playSound(audio) {
-		    //audio.currentTime = 0;
-		    //audio.play().catch(e => {});
+		    audio.currentTime = 0;
+			audio.volume = 0.5;
+		    audio.play().catch(e => {});
 		}
 		
 		function initStartGame() {
@@ -94,8 +95,8 @@
 	    document.getElementById("gameScore").innerText = totalScore;
 	    document.getElementById("lives").innerText = "❤".repeat(lives) + "💔".repeat(3 - lives);
 	    
-	    document.getElementById("srcL").src = `image${idx + 1}L.jpg`;
-	    document.getElementById("srcR").src = `image${idx + 1}R.jpg`;
+	    document.getElementById("srcL").src = `images/image${idx + 1}L.jpg`;
+	    document.getElementById("srcR").src = `images/image${idx + 1}R.jpg`;
 	    
 	    document.querySelectorAll(".marker").forEach(el => el.remove());
 	    activeDiffs = diffsData[idx].map(d => ({ positions: d, found: false }));
@@ -116,7 +117,7 @@
 	                totalScore += 10;
 	                document.getElementById("gameScore").innerText = totalScore;
 	                
-	                //playSound(sndCorrect);
+	                playSound(sndCorrect);
 	                d.positions.forEach(pos => createMarker(pos.x, pos.y));
 	                if (foundInStage === 3) showOverlay(curStg === 4 ? "WIN_ALL" : "NEXT");
 	                break;
@@ -126,7 +127,7 @@
 	    if (!hit) {
 	        lives--;
 	        document.getElementById("lives").innerText = "❤".repeat(lives) + "💔".repeat(3 - lives);
-	        //playSound(sndWrong);
+	        playSound(sndWrong);
 	        if (lives <= 0) showOverlay("GAME_OVER");
 	    }
 	}
@@ -277,13 +278,7 @@
 				}
 			}
 		}
-	};
-
-
-	
-	
-	
-	
+	};	
 </script>
 </body>
 </html>
