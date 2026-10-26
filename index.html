@@ -69,13 +69,13 @@
 		
 		function playSound(audio) {
 		    audio.currentTime = 0;
-			audio.volume = 0.5;
+			audio.volume = 0.4;
 		    audio.play().catch(e => {});
 		}
 
 		function startBgm() {
             sndBgm.currentTime = 0;
-            sndBgm.volume = 0.3; // ปรับความดังเพลงเบื้องหลังให้เบากว่าเสียงเอฟเฟกต์ (30%)
+            sndBgm.volume = 0.25; // ปรับความดังเพลงเบื้องหลังให้เบากว่าเสียงเอฟเฟกต์ (30%)
             sndBgm.play().catch(e => console.log("BGM playback blocked until user interaction."));
         }
 
